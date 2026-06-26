@@ -349,38 +349,16 @@ Build a single SAM for **multiple strings** simultaneously. This enables efficie
 ### 2. Counting Distinct Substrings
 The number of distinct substrings of `s` equals the sum over all states (except root) of `(st[v].len - st[st[v].link].len)`. This is computable in `O(n)` from the SAM.
 
-### 3. Lexicographically K-th Substring
-By counting paths through the SAM, it is possible to find the k-th lexicographically smallest distinct substring in `O(n + k log σ)` time, where σ is the alphabet size.
-
-### 4. Longest Repeated Substring
-The longest repeated substring of `s` corresponds to the deepest internal node in the suffix link tree (i.e., the state with the largest `len` that has more than one endpos).
-
-### 5. Number of Occurrences of a Pattern
-By computing the size of the endpos set for each state (via a topological sort and propagation through suffix links), the SAM can report how many times a pattern occurs in `s` in `O(n)` preprocessing + `O(m)` query.
-
-### 6. Palindrome and Periodicity Detection
-Combined with other structures (e.g., Eertree / palindromic tree), SAM-based techniques can solve complex string problems involving palindromes, periods, and borders.
-
-### 7. Extended Alphabet Support
+### 4. Extended Alphabet Support
 The current implementation uses `next[26]` (fixed array) for efficiency with lowercase Latin letters. For Unicode or arbitrary alphabets, replacing this with a hash map (`unordered_map<char, int>`) generalises the structure at a small constant-time cost per transition.
 
 ---
 
 ## 11. References
 
-### Foundational Papers
 - Blumer, A., Blumer, J., Haussler, D., Ehrenfeucht, A., Chen, M., & Seiferas, J. (1985). *The Smallest Automaton Recognizing the Subwords of a Text*. Theoretical Computer Science, 40, 31–55.
 - Crochemore, M., & Hancart, C. (1997). *Automata for Matching Patterns*. In Handbook of Formal Languages. Springer.
-- Mohri, M., Moreno, P., & Weinstein, E. (2009). *Efficient Large-Scale Music Similarity Search*. (Application of string automata.)
-
-### Online Resources
 - [cp-algorithms.com — Suffix Automaton](https://cp-algorithms.com/string/suffix-automaton.html) — The primary algorithmic reference for this implementation.
-- [Codeforces Blog — SAM Tutorial by e-maxx](https://codeforces.com/blog/entry/54400) — Community explanation with worked examples.
-- [Stanford ICPC Notebook](https://github.com/jaehyunp/stanfordacm) — Competitive programming reference implementations.
-
-### Textbooks
-- Crochemore, M., & Lecroq, T. (2007). *Stringology*. In Algorithms and Theory of Computation Handbook.
-- Gusfield, D. (1997). *Algorithms on Strings, Trees, and Sequences*. Cambridge University Press.
 
 ---
 
