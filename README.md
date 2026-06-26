@@ -4,8 +4,8 @@ A compact and powerful string data structure with `O(n)` construction time, demo
 
 ## Objective
 This project implements a Suffix Automaton (SAM) in C++ and demonstrates two of its classical applications:
-1. **Longest Common Substring (LCS)** — Find the longest substring common to two strings.
-2. **Substring Search (Pattern Matching)** — Determine if a given pattern exists within a string.
+1. **Longest Common Substring (LCS)**: Find the longest substring common to two strings.
+2. **Substring Search (Pattern Matching)**: Determine if a given pattern exists within a string.
 
 The goal is to showcase the efficiency and elegance of the Suffix Automaton as a general-purpose string processing tool, demonstrating linear-time algorithms for problems that are significantly slower under naive approaches.
 
@@ -121,10 +121,13 @@ Pattern exists in String 1
 ## Folder Structure
 
 ```text
-├── code.cpp               # Code (SAM Construction & Applications)
-├── README.md              # Project Overview
-├── PROJECT_CONTEXT.md     # Theory: Motivation, Concepts, Complexity
-└── CODE_EXPLANATION.md    # Implementation Walkthrough, Function-by-Function
+├── code.cpp                           # Code (SAM Construction & Applications)
+├── README.md                          # Project Overview
+├── PROJECT_CONTEXT.md                 # Theory: Motivation, Concepts, Complexity
+├── CODE_EXPLANATION.md                # Implementation Walkthrough, Function-by-Function
+├── Suffix_Automaton_Presentation.pdf  # Project presentation (viewable directly on GitHub)
+└── Suffix_Automaton_Presentation.pptx # Original editable PowerPoint slides
+
 ```
 
 ## References
@@ -133,4 +136,4 @@ Pattern exists in String 1
 * Crochemore & Hancart (1997): *Automata for Matching Patterns*
 
 ---
-*Developed as part of a course project demonstrating the implementation and applications of the Suffix Automaton in C++.*
+*Originally developed as part of a college course project and subsequently expanded with additional applications, documentation, and implementation details.*
