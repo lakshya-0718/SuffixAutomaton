@@ -1,4 +1,4 @@
-# Suffix Automaton: Theory, Motivation, and Context
+# Suffix Automaton: Theory, Motivation and Context
 
 ---
 
