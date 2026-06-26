@@ -124,9 +124,7 @@ Pattern exists in String 1
 ├── code.cpp                           # Code (SAM Construction & Applications)
 ├── README.md                          # Project Overview
 ├── PROJECT_CONTEXT.md                 # Theory: Motivation, Concepts, Complexity
-├── CODE_EXPLANATION.md                # Implementation Walkthrough, Function-by-Function
-├── Suffix_Automaton_Presentation.pdf  # Project presentation (viewable directly on GitHub)
-└── Suffix_Automaton_Presentation.pptx # Original editable PowerPoint slides
+└── CODE_EXPLANATION.md                # Implementation Walkthrough, Function-by-Function
 
 ```
 
