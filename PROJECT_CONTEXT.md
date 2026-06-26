@@ -1,5 +1,4 @@
-# PROJECT_CONTEXT.md
-# Suffix Automaton — Theory, Motivation, and Context
+# Suffix Automaton: Theory, Motivation, and Context
 
 ---
 
