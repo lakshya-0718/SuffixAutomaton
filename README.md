@@ -125,7 +125,6 @@ Pattern exists in String 1
 ├── README.md                          # Project Overview
 ├── PROJECT_CONTEXT.md                 # Theory: Motivation, Concepts, Complexity
 └── CODE_EXPLANATION.md                # Implementation Walkthrough, Function-by-Function
-
 ```
 
 ## References
