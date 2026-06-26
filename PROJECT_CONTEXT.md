@@ -28,7 +28,7 @@
 
 String processing is one of the most fundamental areas in computer science. Problems like pattern matching, finding repeated substrings, or computing the longest common substring appear constantly in fields ranging from bioinformatics (DNA sequence alignment) to search engines (autocomplete, plagiarism detection) to compilers (lexical analysis).
 
-A **Suffix Automaton (SAM)** — also called a **Directed Acyclic Word Graph (DAWG)** — is one of the most powerful and compact string data structures ever invented. First described by Blumer et al. in 1985, it represents all substrings of a string in a single, minimal deterministic finite automaton.
+A **Suffix Automaton (SAM)**, also called a **Directed Acyclic Word Graph (DAWG)**, is one of the most powerful and compact string data structures ever invented. First described by Blumer et al. in 1985, it represents all substrings of a string in a single, minimal deterministic finite automaton.
 
 This project demonstrates the Suffix Automaton through two of its classical applications:
 - **Longest Common Substring (LCS)** between two strings
@@ -42,16 +42,16 @@ Both applications run in **linear time**, making the SAM among the most efficien
 
 ### Why not use simpler approaches?
 
-Consider a string `s` of length `n`. Two naive approaches to substring problems are:
+Consider a string `s` of length `n`. Approaches to substring problems are:
 
 | Approach | LCS Time | Pattern Match Time | Space |
 | :--- | :--- | :--- | :--- |
 | Brute Force (all substrings) | O(n² × m) | O(n × m) | O(1) |
 | Suffix Array | O(n log n) build, O(m log n) query | O(m log n) | O(n) |
-| Suffix Trie | O(n) build | O(m) | O(n²) — too large |
+| Suffix Trie | O(n) build | O(m) | O(n²) |
 | **Suffix Automaton** | **O(n) build, O(m) query** | **O(m)** | **O(n)** |
 
-A **Suffix Trie** stores every suffix of a string explicitly. For a string of length `n`, this means up to `O(n²)` nodes — completely impractical for large inputs.
+A **Suffix Trie** stores every suffix of a string explicitly. For a string of length `n`, this means up to `O(n²)` nodes which is completely impractical for large inputs.
 
 The Suffix Automaton solves this by merging equivalent states: substrings that always appear at the same set of positions in the text are represented by a single state. The result is a structure with at most **2n − 1 states** and **3n − 4 transitions**, while still encoding every substring.
 
@@ -76,7 +76,7 @@ More precisely, it is a directed graph where:
 ### Key Properties:
 
 **1. Compactness:**  
-Every substring of `s` corresponds to a unique path from the root. The automaton has at most `2n − 1` states and `3n − 4` transitions — linear in the length of the input string.
+Every substring of `s` corresponds to a unique path from the root. The automaton has at most `2n − 1` states and `3n − 4` transitions (linear in the length of the input string).
 
 **2. Completeness:**  
 Every path from the root to any reachable state spells out a valid substring of `s`. No spurious substrings are accepted.
@@ -102,7 +102,7 @@ For example, if `s = "abab"`:
 - `endpos("b") = {2, 4}` — same positions
 - `endpos("a") = {1, 3}` — different positions
 
-Two substrings with the **same endpos set** are placed in the **same state**. This is the key compression mechanism — substrings that always co-occur are merged.
+Two substrings with the **same endpos set** are placed in the **same state**. This is the key compression mechanism. Substrings that always co-occur are merged.
 
 Each state stores:
 - **`len`**: the length of the longest substring in its equivalence class.
@@ -153,7 +153,7 @@ Clone states are a technical necessity introduced during construction to maintai
 
 **When is cloning needed?**
 
-When adding a new character, the algorithm walks up suffix links to find the first state `p` that already has a transition on the new character, leading to state `q`. If `st[p].len + 1 != st[q].len`, then `q` is "too long" — it incorrectly bundles together substrings that should be in separate equivalence classes given the new character.
+When adding a new character, the algorithm walks up suffix links to find the first state `p` that already has a transition on the new character, leading to state `q`. If `st[p].len + 1 != st[q].len`, then `q` is "too long", hence it incorrectly bundles together substrings that should be in separate equivalence classes given the new character.
 
 **What does cloning do?**
 
