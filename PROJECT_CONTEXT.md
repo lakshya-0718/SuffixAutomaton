@@ -173,7 +173,7 @@ This ensures the endpos partition remains valid and the automaton stays minimal 
 
 ## 5. Construction Process
 
-The SAM is built **online** — one character at a time — using the `sa_extend()` function. Here is a high-level walkthrough:
+The SAM is built **incrementally**, one character at a time, using the `sa_extend()` function. Here is a high-level walkthrough:
 
 ### Initialization (`sa_init`)
 - Create the root state (state 0) with `len = 0`, `link = -1`, all transitions set to `-1`.
@@ -181,37 +181,37 @@ The SAM is built **online** — one character at a time — using the `sa_extend
 
 ### Extending by one character (`sa_extend(c)`)
 
-**Step 1 — Create new state:**  
+**Step 1: Create New State:**  
 A new state `cur` is created with `len = last.len + 1`. This state will represent all new substrings formed by appending character `c` to every suffix of the current string (including the whole string itself).
 
-**Step 2 — Walk up suffix links:**  
+**Step 2: Walk up Suffix Links:**  
 Starting from `last`, walk up the suffix link chain. For every state `p` that has no transition on `c`, add a transition from `p` to `cur`. This allows every suffix of the current string extended by `c` to be recognized.
 
 Stop when either:
 - A state `p` already has a transition on `c` (found: existing path), or
 - We fall off the root (`p = -1`): character `c` is entirely new.
 
-**Step 3 — Set suffix link for `cur`:**
+**Step 3: Set Suffix Link for `cur`:**
 
-- **Case A (fell off root):** `cur.link = root`. No existing occurrence of `c` — link directly to root.
+- **Case A (fell off root):** `cur.link = root`. No existing occurrence of `c` then link directly to root.
 
 - **Case B (found state `p` with transition to `q`):**
   - If `p.len + 1 == q.len`: `q` is already the correct state. Set `cur.link = q`.
   - If `p.len + 1 != q.len`: Clone `q`. Redirect transitions and fix suffix links as described above.
 
-**Step 4 — Update `last`:**  
+**Step 4: Update `last`:**  
 Set `last = cur`. The new state is now the "current end" of the automaton.
 
 ### Visual Example: Building SAM for `"ab"`
 
 ```text
 After 'a':
-  State 0 (root) --[a]--> State 1 (len=1, link=0)
+  State 0 (root) --[a]--> State 1 (len = 1, link = 0)
   last = 1
 
 After 'b':
   State 0 --[a]--> State 1
-  State 0 --[b]--> State 2 (len=2, link=0)
+  State 0 --[b]--> State 2 (len = 2, link = 0)
   State 1 --[b]--> State 2
   last = 2
 ```
@@ -226,22 +226,22 @@ State 2 represents substrings `"b"` and `"ab"` (both end only at position 2).
 
 **Problem:** Given two strings `s` and `t`, find the longest substring that appears in both.
 
-**Naive approach:** `O(n × m)` — generate all substrings of `s`, check each against `t`.
+**Naive approach:** `O(n × m)` generate all substrings of `s`, check each against `t`.
 
 **SAM approach:**
 1. Build the SAM on string `s` in `O(n)` time.
 2. Traverse the SAM using characters of string `t`.
 
 During traversal, maintain:
-- `v` — the current state in the SAM.
-- `l` — the current match length (how many recent characters of `t` are also in `s`).
+- `v`: the current state in the SAM.
+- `l`: the current match length (how many recent characters of `t` are also in `s`).
 
 For each character of `t`:
 - If the current state has a transition on this character: follow it, increment `l`.
 - If not: follow suffix links backward until a state with a valid transition is found (shortening `l` accordingly), then follow the transition.
 - If even the root has no transition: reset `l = 0`, stay at root.
 
-Track the maximum `l` seen — this is the length of the LCS.
+The maximum `l` seen is the length of the LCS.
 
 **Time complexity:** `O(n + m)` total.
 
@@ -254,7 +254,7 @@ Every path from the root in the SAM spells a substring of `s`. By greedily match
 
 **Problem:** Given string `s` and pattern `p`, determine if `p` is a substring of `s`.
 
-**Naive approach:** `O(n × m)` — check every starting position.
+**Naive approach:** `O(n × m)` check every starting position.
 
 **SAM approach:**
 1. Build the SAM on string `s` in `O(n)` time.
@@ -265,7 +265,7 @@ Every path from the root in the SAM spells a substring of `s`. By greedily match
 **Time complexity:** `O(n)` build + `O(m)` query.
 
 **Why it works:**  
-Every substring of `s` is accepted by the SAM — i.e., there exists a valid path from the root that spells it out. If we can follow a transition for every character of `p` without getting stuck, then `p` is indeed a substring of `s`. If any transition is missing, no path can spell `p`, meaning it does not occur in `s`.
+Every substring of `s` is accepted by the SAM, i.e., there exists a valid path from the root that spells it out. If we can follow a transition for every character of `p` without getting stuck, then `p` is indeed a substring of `s`. If any transition is missing, no path can spell `p`, meaning it does not occur in `s`.
 
 ---
 
@@ -274,7 +274,7 @@ Every substring of `s` is accepted by the SAM — i.e., there exists a valid pat
 | Advantage | Details |
 | :--- | :--- |
 | **Linear construction time** | `O(n)` to build, regardless of the string's structure |
-| **Linear space** | At most `2n-1` states, `3n-4` transitions — far smaller than a Suffix Trie |
+| **Linear space** | At most `2n-1` states, `3n-4` transitions which is far smaller than a Suffix Trie |
 | **`O(m)` query time** | Pattern matching in time proportional only to pattern length |
 | **Online construction** | Can extend the automaton as new characters arrive |
 | **Versatile** | Supports LCS, pattern matching, counting distinct substrings, finding lexicographically k-th substring, and more |
