@@ -349,6 +349,9 @@ Build a single SAM for **multiple strings** simultaneously. This enables efficie
 ### 2. Counting Distinct Substrings
 The number of distinct substrings of `s` equals the sum over all states (except root) of `(st[v].len - st[st[v].link].len)`. This is computable in `O(n)` from the SAM.
 
+### 3. Number of Occurrences of a Pattern
+While our implementation checks *if* a pattern exists, the SAM can also report *how many times* it occurs. By computing the size of the endpos set for each state (via a topological sort and propagating counts up the suffix links), we can answer occurrence queries in `O(m)` time.
+
 ### 4. Extended Alphabet Support
 The current implementation uses `next[26]` (fixed array) for efficiency with lowercase Latin letters. For Unicode or arbitrary alphabets, replacing this with a hash map (`unordered_map<char, int>`) generalises the structure at a small constant-time cost per transition.
 
